@@ -11,6 +11,11 @@ function TablePage(): ReactElement {
   const [employees, setEmployees] = useState<IEmployee[]>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [personsPerPage] = useState<number>(5);
+  const [openAddModal, setOpenAddModal] = useState<boolean>(false);
+
+  const handleClick = () => {
+    setOpenAddModal(true);
+  };
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -37,7 +42,8 @@ function TablePage(): ReactElement {
       {currentPersons && employees ? (
         <ListContainer>
           <EmployeesList employees={currentPersons} />
-          <AddEmployee employees={employees} />
+          <div onClick={() => handleClick()}>Button</div>
+          <AddEmployee employees={employees} openModal={openAddModal} />
           <Pagination
             personsPerPage={personsPerPage}
             totalPersons={employees.length}
