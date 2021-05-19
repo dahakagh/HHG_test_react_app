@@ -7,12 +7,26 @@ export const Container = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 60%;
-  height: 400px;
-  margin: -200px 0 0 -30%;
+  width: 80%;
+  height: 600px;
+  margin: -300px 0 0 -40%;
   border: 1px solid #dedede;
 `;
 
 export const ListContainer = styled.div`
   display: block;
+  width: 800px;
+`;
+
+export const NewPersonButton = styled.div`
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  cursor: pointer;
+  color: #707070;
+  border-top: 1px solid #bebebe;
+
+  :hover {
+    color: black;
+  }
 `;

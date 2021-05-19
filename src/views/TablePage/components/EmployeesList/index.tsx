@@ -10,9 +10,9 @@ export const EmployeesList: React.FC<IEmployees> = ({ employees }) => {
         <ColumnLabel>Email</ColumnLabel>
         <ColumnLabel>Position</ColumnLabel>
       </Headers>
-      {employees?.map((employee) => (
+      {employees?.map((employee, index) => (
         <Employee
-          key={employee.id}
+          key={index}
           name={employee.name}
           email={employee.email}
           position={employee.position}

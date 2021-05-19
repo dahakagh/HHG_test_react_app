@@ -1,21 +1,18 @@
 import axios from "axios";
 import { ReactElement, useEffect, useState } from "react";
 import { Pagination } from "../../components/Pagination";
+import { useModal } from "../../hooks/useModal";
 import { IEmployee } from "../../types";
-import { AddEmployee } from "./components/AddEmployee";
+import { AddEmployeeModal } from "./components/AddEmployee";
 import { EmployeesList } from "./components/EmployeesList";
 
-import { Container, ListContainer } from "./styles";
+import { Container, ListContainer, NewPersonButton } from "./styles";
 
 function TablePage(): ReactElement {
   const [employees, setEmployees] = useState<IEmployee[]>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [personsPerPage] = useState<number>(5);
-  const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-
-  const handleClick = () => {
-    setOpenAddModal(true);
-  };
+  const { isShown, toggle } = useModal();
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -42,8 +39,15 @@ function TablePage(): ReactElement {
       {currentPersons && employees ? (
         <ListContainer>
           <EmployeesList employees={currentPersons} />
-          <div onClick={() => handleClick()}>Button</div>
-          <AddEmployee employees={employees} openModal={openAddModal} />
+          <NewPersonButton onClick={toggle}>+ New</NewPersonButton>
+          <AddEmployeeModal
+            isShown={isShown}
+            hide={toggle}
+            employees={employees}
+            setEmployees={setEmployees}
+            setCurrentPage={setCurrentPage}
+            personsPerPage={personsPerPage}
+          />
           <Pagination
             personsPerPage={personsPerPage}
             totalPersons={employees.length}
