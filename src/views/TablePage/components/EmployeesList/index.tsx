@@ -1,20 +1,23 @@
-import { useEffect, useState } from "react";
 import { IEmployees } from "../../../../types";
 import { Employee } from "../Employee";
+import { Container, Headers, ColumnLabel } from "./styles";
 
 export const EmployeesList: React.FC<IEmployees> = ({ employees }) => {
   return (
-    <div>
-      {employees?.map((employee) => {
-        return (
-          <Employee
-            key={employee.id}
-            name={employee.name}
-            email={employee.email}
-            position={employee.position}
-          />
-        );
-      })}
-    </div>
+    <Container>
+      <Headers>
+        <ColumnLabel>Name</ColumnLabel>
+        <ColumnLabel>Email</ColumnLabel>
+        <ColumnLabel>Position</ColumnLabel>
+      </Headers>
+      {employees?.map((employee) => (
+        <Employee
+          key={employee.id}
+          name={employee.name}
+          email={employee.email}
+          position={employee.position}
+        />
+      ))}
+    </Container>
   );
 };

@@ -1,6 +1,5 @@
 import { ReactElement, useState } from "react";
-import { useHistory } from "react-router";
-import { CounterBtn } from "../../components/CounterBtn";
+import { CounterButton } from "../../components/CounterBtn";
 import { CounterDisplay } from "../../components/CounterDisplay";
 
 import { ButtonContainer, Container } from "./styles";
@@ -20,8 +19,8 @@ function CounterPage(): ReactElement {
     <Container>
       <CounterDisplay count={count} />
       <ButtonContainer>
-        <CounterBtn label={"Add"} onClick={handleClick} />
-        <CounterBtn label={"Reset"} onClick={resetClick} />
+        <CounterButton label={"Add"} onClick={handleClick} />
+        <CounterButton label={"Reset"} onClick={resetClick} />
       </ButtonContainer>
     </Container>
   );

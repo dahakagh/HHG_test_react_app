@@ -16,7 +16,3 @@ export const Container = styled.div`
 export const ListContainer = styled.div`
   display: block;
 `;
-
-export const AddEmployeeField = styled.div`
-  padding: 5px 20px;
-`;

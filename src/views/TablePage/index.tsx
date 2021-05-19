@@ -2,9 +2,10 @@ import axios from "axios";
 import { ReactElement, useEffect, useState } from "react";
 import { Pagination } from "../../components/Pagination";
 import { IEmployee } from "../../types";
+import { AddEmployee } from "./components/AddEmployee";
 import { EmployeesList } from "./components/EmployeesList";
 
-import { Container, ListContainer, AddEmployeeField } from "./styles";
+import { Container, ListContainer } from "./styles";
 
 function TablePage(): ReactElement {
   const [employees, setEmployees] = useState<IEmployee[]>();
@@ -36,16 +37,14 @@ function TablePage(): ReactElement {
       {currentPersons && employees ? (
         <ListContainer>
           <EmployeesList employees={currentPersons} />
-          <AddEmployeeField>Add new Person</AddEmployeeField>
+          <AddEmployee employees={employees} />
           <Pagination
             personsPerPage={personsPerPage}
             totalPersons={employees.length}
             paginate={paginate}
           />
         </ListContainer>
-      ) : (
-        <div>{`No employees :(`}</div>
-      )}
+      ) : null}
     </Container>
   );
 }
