@@ -1,6 +1,5 @@
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import "./App.css";
 import Header from "./components/Header";
 import CounterPage from "./views/CounterPage";
 import TablePage from "./views/TablePage";

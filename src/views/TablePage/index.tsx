@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { Pagination } from "../../components/Pagination";
 import { useModal } from "../../hooks/useModal";
 import { IEmployee } from "../../types";
@@ -17,13 +17,30 @@ function TablePage(): ReactElement {
   useEffect(() => {
     const fetchEmployees = async () => {
       const res = await axios.get(
-        "https://60a3d44f7c6e8b0017e2800d.mockapi.io/employees"
+        `https://60a3d44f7c6e8b0017e2800d.mockapi.io/employees?page=${1}`
       );
       setEmployees(res.data);
     };
 
     fetchEmployees();
   }, []);
+
+  const handleSubmit = async (state: IEmployee, e: React.SyntheticEvent) => {
+    e.preventDefault();
+    const { name, email, position } = state;
+    const newPerson = { name, email, position };
+
+    await axios
+      .post("https://60a3d44f7c6e8b0017e2800d.mockapi.io/employees", newPerson)
+      .then(() => {
+        if (employees) {
+          setEmployees([...employees, newPerson]);
+          setCurrentPage(Math.ceil(employees.length / personsPerPage));
+          toggle();
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   const indexOfLastPerson = currentPage * personsPerPage;
   const indexOfFirstPerson = indexOfLastPerson - personsPerPage;
@@ -32,7 +49,7 @@ function TablePage(): ReactElement {
     indexOfLastPerson
   );
 
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const handleClickOnPage = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
     <Container>
@@ -44,14 +61,14 @@ function TablePage(): ReactElement {
             isShown={isShown}
             hide={toggle}
             employees={employees}
-            setEmployees={setEmployees}
-            setCurrentPage={setCurrentPage}
             personsPerPage={personsPerPage}
+            handleSubmit={handleSubmit}
           />
           <Pagination
             personsPerPage={personsPerPage}
             totalPersons={employees.length}
-            paginate={paginate}
+            handleClickOnPage={handleClickOnPage}
+            currentPage={currentPage}
           />
         </ListContainer>
       ) : null}

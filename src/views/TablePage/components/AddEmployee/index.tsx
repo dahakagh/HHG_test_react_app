@@ -14,14 +14,12 @@ import {
 } from "./styles";
 import { IEmployee, IEmployees } from "../../../../types";
 import React, { useState } from "react";
-import axios from "axios";
 
 interface ModalProps extends IEmployees {
   isShown: boolean;
   personsPerPage: number;
   hide: () => void;
-  setEmployees: (employees: IEmployee[]) => void;
-  setCurrentPage: (pageNumber: number) => void;
+  handleSubmit: (state: IEmployee, e: React.SyntheticEvent) => void;
 }
 
 interface Event {
@@ -31,10 +29,7 @@ interface Event {
 export const AddEmployeeModal: React.FC<ModalProps> = ({
   isShown,
   hide,
-  employees,
-  setEmployees,
-  setCurrentPage,
-  personsPerPage,
+  handleSubmit,
 }) => {
   const [state, setState] = useState<IEmployee>({
     name: "",
@@ -42,19 +37,8 @@ export const AddEmployeeModal: React.FC<ModalProps> = ({
     position: "",
   });
 
-  const handleSubmit = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    const { name, email, position } = state;
-    const newPerson = { name, email, position };
-
-    await axios
-      .post("https://60a3d44f7c6e8b0017e2800d.mockapi.io/employees", newPerson)
-      .then((res) => {
-        setEmployees([...employees, newPerson]);
-        setCurrentPage(Math.ceil(employees.length / personsPerPage));
-        hide();
-      })
-      .catch((err) => console.log(err));
+  const handleConfirm = (state: IEmployee, e: React.SyntheticEvent) => {
+    handleSubmit(state, e);
   };
 
   const handleChange = (e: Event) => {
@@ -95,7 +79,9 @@ export const AddEmployeeModal: React.FC<ModalProps> = ({
               onChange={handleChange}
               required
             />
-            <ConfirmButton onClick={handleSubmit}>Add</ConfirmButton>
+            <ConfirmButton onClick={(e) => handleConfirm(state, e)}>
+              Add
+            </ConfirmButton>
           </Content>
         </StyledModal>
       </Wrapper>
